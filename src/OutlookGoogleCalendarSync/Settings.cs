@@ -90,9 +90,11 @@ namespace OutlookGoogleCalendarSync {
             OnlyRespondedInvites = false;
             OutlookDateFormat = "g";
             outlookGalBlocked = false;
-            TimezoneMaps = new TimezoneMappingDictionary();
+            DisconnectOutlookBetweenSync = false;
+            TimezoneMaps = new TimezoneMappingDictionary();            
 
             UseGoogleCalendar = new GoogleCalendarListEntry();
+            ExcludeDeclinedInvites = true;
             ExcludeGoals = true;
             apiLimit_inEffect = false;
             apiLimit_lastHit = DateTime.Parse("01-Jan-2000");
@@ -115,6 +117,7 @@ namespace OutlookGoogleCalendarSync {
             ReminderDNDstart = DateTime.Now.Date.AddHours(22);
             ReminderDNDend = DateTime.Now.Date.AddDays(1).AddHours(6);
             AddAttendees = false;
+            MaxAttendees = 200;
             AddColours = false;
             MergeItems = true;
             DisableDelete = true;
@@ -194,6 +197,7 @@ namespace OutlookGoogleCalendarSync {
                 if (!loading() && Forms.Main.Instance.IsHandleCreated) Forms.Main.Instance.FeaturesBlockedByCorpPolicy(value);
             }
         }
+        [DataMember] public Boolean DisconnectOutlookBetweenSync { get; set; }
 
         [DataMember] public TimezoneMappingDictionary TimezoneMaps { get; private set; }
         [CollectionDataContract(
@@ -219,6 +223,7 @@ namespace OutlookGoogleCalendarSync {
                 if (!loading()) XMLManager.ExportElement("AssignedClientSecret", value.Trim(), ConfigFile);
             }
         }
+        [DataMember] public Boolean ExcludeDeclinedInvites { get; set; }
         [DataMember] public Boolean ExcludeGoals { get; set; }
         private String personalClientIdentifier;
         private String personalClientSecret;
@@ -275,6 +280,7 @@ namespace OutlookGoogleCalendarSync {
         [DataMember] public DateTime ReminderDNDstart { get; set; }
         [DataMember] public DateTime ReminderDNDend { get; set; }
         [DataMember] public bool AddAttendees { get; set; }
+        [DataMember] public int MaxAttendees { get; set; }
         [DataMember] public bool AddColours { get; set; }
         [DataMember] public bool MergeItems { get; set; }
         [DataMember] public bool DisableDelete { get; set; }
@@ -300,6 +306,8 @@ namespace OutlookGoogleCalendarSync {
             Namespace = "http://schemas.datacontract.org/2004/07/OutlookGoogleCalendarSync"
         )]
         public class ColourMappingDictionary : Dictionary<String, String> { }
+        /// <summary>Only allow Outlook to have one category assigned</summary>
+        [DataMember] public Boolean SingleCategoryOnly { get; set; }
         
         //Obfuscation
         [DataMember] public Obfuscate Obfuscation { get; set; }
@@ -477,6 +485,7 @@ namespace OutlookGoogleCalendarSync {
             log.Info("  Only Responded Invites: " + OnlyRespondedInvites);
             log.Info("  Filter String: " + OutlookDateFormat);
             log.Info("  GAL Blocked: " + OutlookGalBlocked);
+            log.Info("  Disconnect Between Sync: " + DisconnectOutlookBetweenSync);
             if (TimezoneMaps.Count > 0) {
                 log.Info("  Custom Timezone Mapping:-");
                 TimezoneMaps.ToList().ForEach(tz => log.Info("    " + tz.Key + " => " + tz.Value));
@@ -484,6 +493,7 @@ namespace OutlookGoogleCalendarSync {
             
             log.Info("GOOGLE SETTINGS:-");
             log.Info("  Calendar: " + (UseGoogleCalendar == null ? "" : UseGoogleCalendar.ToString(true)));
+            log.Info("  Exclude Declined Invites: " + ExcludeDeclinedInvites);
             log.Info("  Exclude Goals: " + ExcludeGoals);
             log.Info("  Personal API Keys: " + UsingPersonalAPIkeys());
             log.Info("    Client Identifier: " + PersonalClientIdentifier);
@@ -516,6 +526,7 @@ namespace OutlookGoogleCalendarSync {
                     ColourMaps.ToList().ForEach(c => log.Info("    " + OutlookOgcs.Calendar.Categories.OutlookColour(c.Key) + ":" + c.Key + " <=> " +
                         c.Value + ":" + GoogleOgcs.EventColour.Palette.GetColourName(c.Value)));
             }
+            log.Info("  SingleCategoryOnly: " + SingleCategoryOnly);
             log.Info("  Obfuscate Words: " + Obfuscation.Enabled);
             if (Obfuscation.Enabled) {
                 if (Settings.Instance.Obfuscation.FindReplace.Count == 0) log.Info("    No regex defined.");
@@ -534,7 +545,7 @@ namespace OutlookGoogleCalendarSync {
             log.Info(" What");
             log.Info("  AddLocation: " + AddLocation);
             log.Info("  AddDescription: " + AddDescription + "; OnlyToGoogle: " + AddDescription_OnlyToGoogle);
-            log.Info("  AddAttendees: " + AddAttendees);
+            log.Info("  AddAttendees: " + AddAttendees + " <" + MaxAttendees);
             log.Info("  AddColours: " + AddColours);
             log.Info("  AddReminders: " + AddReminders);
             log.Info("    UseGoogleDefaultReminder: " + UseGoogleDefaultReminder);

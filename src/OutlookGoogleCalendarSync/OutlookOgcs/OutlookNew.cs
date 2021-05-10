@@ -107,8 +107,9 @@ namespace OutlookGoogleCalendarSync.OutlookOgcs {
             }
         }
         public void Disconnect(Boolean onlyWhenNoGUI = false) {
-            if (!onlyWhenNoGUI ||
-                (onlyWhenNoGUI && (oApp == null || oApp.Explorers.Count == 0)))
+            if (Settings.Instance.DisconnectOutlookBetweenSync ||
+                !onlyWhenNoGUI ||
+                (onlyWhenNoGUI && NoGUIexists()))
             {
                 log.Debug("De-referencing all Outlook application objects.");
                 try {
@@ -131,6 +132,35 @@ namespace OutlookGoogleCalendarSync.OutlookOgcs {
                 oApp = null;
                 GC.Collect();
             }
+        }
+
+        public Boolean NoGUIexists() {
+            Boolean retVal = (oApp == null);
+            if (!retVal) {
+                Explorers explorers = null;
+                try {
+                    explorers = oApp.Explorers;
+                    retVal = (explorers.Count == 0);
+                } catch (System.Exception) {
+                    if (System.Diagnostics.Process.GetProcessesByName("OUTLOOK").Count() == 0) {
+                        log.Fine("No running outlook.exe process found.");
+                        retVal = true;
+                    } else {
+                        OutlookOgcs.Calendar.AttachToOutlook(ref oApp, openOutlookOnFail: false);
+                        try {
+                            explorers = oApp.Explorers;
+                            retVal = (explorers.Count == 0);
+                        } catch {
+                            log.Warn("Failed to reattach to Outlook instance.");
+                            retVal = true;
+                        }
+                    }
+                } finally {
+                    explorers = (Explorers)OutlookOgcs.Calendar.ReleaseObject(explorers);
+                }
+            }
+            if (retVal) log.Fine("No Outlook GUI detected.");
+            return retVal;
         }
 
         public Folders Folders() { return folders; }
@@ -314,7 +344,7 @@ namespace OutlookGoogleCalendarSync.OutlookOgcs {
 
             } else if (Settings.Instance.OutlookService == OutlookOgcs.Calendar.Service.SharedCalendar) {
                 log.Debug("Finding shared calendar");
-                if (Forms.Main.Instance.Visible && Forms.Main.Instance.ActiveControl.Name == "rbOutlookSharedCal") {
+                if (Forms.Main.Instance.Visible && Forms.Main.Instance.ActiveControl?.Name == "rbOutlookSharedCal") {
                     SelectNamesDialog snd;
                     try {
                         snd = oNS.GetSelectNamesDialog();
@@ -480,6 +510,14 @@ namespace OutlookGoogleCalendarSync.OutlookOgcs {
             }
         }
 
+        public List<Object> FilterItems(Items outlookItems, String filter) {
+            List<Object> restrictedItems = new List<Object>();
+            foreach (Object obj in outlookItems.Restrict(filter)) {
+                restrictedItems.Add(obj);
+            }
+            return restrictedItems;
+        }
+
         public void GetAppointmentByID(String entryID, out AppointmentItem ai) {
             NameSpace ns = oApp.GetNamespace("mapi");
             ai = ns.GetItemFromID(entryID) as AppointmentItem;
@@ -517,9 +555,14 @@ namespace OutlookGoogleCalendarSync.OutlookOgcs {
                             ExchangeUser eu = null;
                             try {
                                 eu = addressEntry.GetExchangeUser();
-                                if (eu != null && eu.PrimarySmtpAddress != null)
-                                    retEmail = eu.PrimarySmtpAddress;
-                                else {
+                                if (eu != null) {
+                                    try {
+                                        retEmail = eu.PrimarySmtpAddress;
+                                    } catch (System.Exception ex) {
+                                        OGCSexception.Analyse("Could not access Exchange users's primary SMTP.", OGCSexception.LogAsFail(ex));
+                                    }
+                                }
+                                if (eu == null || string.IsNullOrEmpty(retEmail)) {
                                     log.Warn("Exchange does not have an email for recipient: " + recipient.Name);
                                     Microsoft.Office.Interop.Outlook.PropertyAccessor pa = null;
                                     try {
@@ -632,7 +675,14 @@ namespace OutlookGoogleCalendarSync.OutlookOgcs {
 
         public void RefreshCategories() {
             log.Debug("Refreshing categories...");
-            OutlookOgcs.Calendar.Categories.Get(oApp, useOutlookCalendar);
+            try {
+                OutlookOgcs.Calendar.Categories.Get(oApp, useOutlookCalendar);
+            } catch (System.Exception ex) {
+                if (OGCSexception.GetErrorCode(ex) == "0x800706BA") { //RPC Server Unavailable
+                    OutlookOgcs.Calendar.AttachToOutlook(ref oApp);
+                    OutlookOgcs.Calendar.Categories.Get(oApp, useOutlookCalendar);
+                }
+            }
             Forms.Main.Instance.ddOutlookColour.AddColourItems();
             foreach (OutlookOgcs.Categories.ColourInfo cInfo in Forms.Main.Instance.ddOutlookColour.Items) {
                 if (cInfo.OutlookCategory.ToString() == Settings.Instance.SetEntriesColourValue &&
@@ -800,7 +850,7 @@ namespace OutlookGoogleCalendarSync.OutlookOgcs {
                 if (tzi != null) return tzi;
 
                 //Finally, fuzzy logic
-                log.Warn("Could not find timezone ID based on given description. Attempting some fuzzy logic...");
+                log.Warn("Could not find timezone ID based on given description, '" + tzDescription + "'. Attempting some fuzzy logic...");
                 if (tzDescription.StartsWith("(GMT")) {
                     log.Fine("Replace GMT with UTC");
                     String modTzDescription = tzDescription.Replace("(GMT", "(UTC");

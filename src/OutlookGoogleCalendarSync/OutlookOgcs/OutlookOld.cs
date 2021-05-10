@@ -88,8 +88,9 @@ namespace OutlookGoogleCalendarSync.OutlookOgcs {
             }
         }
         public void Disconnect(Boolean onlyWhenNoGUI = false) {
-            if (!onlyWhenNoGUI ||
-                (onlyWhenNoGUI && oApp.Explorers.Count == 0)) 
+            if (Settings.Instance.DisconnectOutlookBetweenSync ||
+                !onlyWhenNoGUI ||
+                (onlyWhenNoGUI && NoGUIexists()))             
             {
                 log.Debug("De-referencing all Outlook application objects.");
                 try {
@@ -110,6 +111,35 @@ namespace OutlookGoogleCalendarSync.OutlookOgcs {
                 oApp = null;
                 GC.Collect();
             }
+        }
+
+        public Boolean NoGUIexists() {
+            Boolean retVal = (oApp == null);
+            if (!retVal) {
+                Explorers explorers = null;
+                try {
+                    explorers = oApp.Explorers;
+                    retVal = (explorers.Count == 0);
+                } catch (System.Exception) {
+                    if (System.Diagnostics.Process.GetProcessesByName("OUTLOOK").Count() == 0) {
+                        log.Fine("No running outlook.exe process found.");
+                        retVal = true;
+                    } else {
+                        OutlookOgcs.Calendar.AttachToOutlook(ref oApp, openOutlookOnFail: false);
+                        try {
+                            explorers = oApp.Explorers;
+                            retVal = (explorers.Count == 0);
+                        } catch {
+                            log.Warn("Failed to reattach to Outlook instance.");
+                            retVal = true;
+                        }
+                    }
+                } finally {
+                    explorers = (Explorers)OutlookOgcs.Calendar.ReleaseObject(explorers);
+                }
+            }
+            if (retVal) log.Fine("No Outlook GUI detected.");
+            return retVal;
         }
 
         public Folders Folders() { return folders; }
@@ -339,6 +369,32 @@ namespace OutlookGoogleCalendarSync.OutlookOgcs {
             }
         }
 
+        public List<Object> FilterItems(Items outlookItems, String filter) {
+            List<Object> restrictedItems = new List<Object>();
+            foreach (Object obj in outlookItems.Restrict(filter)) {
+                restrictedItems.Add(obj);
+            }
+
+            // Recurring items with start dates before the synced date range are excluded incorrectly - this retains them
+            List<Object> o2003recurring = new List<Object>();
+            try {
+                for (int i = 1; i <= outlookItems.Count; i++) {
+                    AppointmentItem ai = null;
+                    if (outlookItems[i] is AppointmentItem) {
+                        ai = outlookItems[i] as AppointmentItem;
+                        if (ai.IsRecurring && ai.Start.Date < Settings.Instance.SyncStart && ai.End.Date < Settings.Instance.SyncStart)
+                            o2003recurring.Add(outlookItems[i]);
+                    }
+                }
+                log.Info(o2003recurring.Count + " recurring items successfully kept for Outlook 2003.");
+            } catch (System.Exception ex) {
+                OGCSexception.Analyse("Unable to iterate Outlook items.", ex);
+            }
+            restrictedItems.AddRange(o2003recurring);
+
+            return restrictedItems;
+        }
+
         public void GetAppointmentByID(String entryID, out AppointmentItem ai) {
             NameSpace ns = oApp.GetNamespace("mapi");
             ai = ns.GetItemFromID(entryID) as AppointmentItem;
@@ -423,7 +479,7 @@ namespace OutlookGoogleCalendarSync.OutlookOgcs {
         }
 
         public void RefreshCategories() { }
-
+        
         #region Addin Express Code
         //This code has been sourced from:
         //https://www.add-in-express.com/creating-addins-blog/2009/05/08/outlook-exchange-email-address-smtp/
