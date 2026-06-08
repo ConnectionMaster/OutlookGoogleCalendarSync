@@ -60,10 +60,15 @@ namespace OutlookGoogleCalendarSync.Extensions {
         }
 
         public override bool Equals(Object obj) {
-            if (obj is OgcsDateTimeOffset)
-                return this.baseDateTime == (obj as OgcsDateTimeOffset).baseDateTime;
-            else
-                return false;
+            if (obj is OgcsDateTimeOffset objDTO) {
+                if (this.dateOnly == objDTO.dateOnly) {
+                    if (this.dateOnly)
+                        return this.baseDateTime.Date == objDTO.baseDateTime.Date;
+                    else
+                        return this.baseDateTime == (obj as OgcsDateTimeOffset).baseDateTime;
+                }
+            }
+            return false;
         }
 
         public override int GetHashCode() {
@@ -92,7 +97,7 @@ namespace OutlookGoogleCalendarSync.Extensions {
         /// <summary>
         /// Returns the DateTime with time and GMT offset.
         /// </summary>
-        /// <param name="dt">Date-time value</param>
+        /// <param name="dt">Date-time offset value</param>
         /// <returns>Formatted string</returns>
         public static String ToPreciseString(this System.DateTimeOffset dt) {
             return dt.ToUniversalTime().ToString(preciseString, CultureInfo.InvariantCulture);
@@ -112,7 +117,7 @@ namespace OutlookGoogleCalendarSync.Extensions {
         /// </summary>
         /// <returns>DateTimeOffset</returns>
         public static System.DateTimeOffset SafeDateTimeOffset(this EventDateTime evDt) {
-            return evDt.DateTimeDateTimeOffset?.ToLocalTime() ?? System.DateTimeOffset.Parse(evDt.Date);
+            return evDt.DateTimeDateTimeOffset?.ToLocalTime() ?? System.DateTimeOffset.ParseExact(evDt.Date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
         }
 
         /// <summary>

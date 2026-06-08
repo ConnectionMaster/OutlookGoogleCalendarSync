@@ -931,7 +931,7 @@ namespace OutlookGoogleCalendarSync.Google {
             Boolean evAllDay = ev.AllDayEvent();
             OgcsDateTimeOffset evStart = new(ev.Start.SafeDateTimeOffset(), evAllDay);
             OgcsDateTimeOffset evEnd = new(ev.End.SafeDateTimeOffset(), evAllDay); 
-            if (ai.AllDayEvent && ai.Start.TimeOfDay == new TimeSpan(0, 0, 0)) {
+            if (ai.AllDayEvent) {
                 ev.Start.Date = ai.Start.ToString("yyyy-MM-dd");
                 ev.End.Date = ai.End.ToString("yyyy-MM-dd");
                 ev.Start.DateTimeDateTimeOffset = null;
@@ -2031,10 +2031,15 @@ namespace OutlookGoogleCalendarSync.Google {
             if (!profile.AddColours && !profile.SetEntriesColour) return EventColour.Palette.NullPalette;
 
             OlCategoryColor? categoryColour = null;
-            EventColour.Palette overrideColour = this.ColourPalette.ActivePalette[Convert.ToInt16(profile.SetEntriesColourGoogleId)];
-
+            EventColour.Palette overrideColour = gColour ?? EventColour.Palette.NullPalette;
+                
             Boolean checkOverrideManuallyAltered = false;
             if (profile.SetEntriesColour) {
+                if (profile.TargetCalendar.Id == Sync.Direction.Bidirectional.Id)
+                    overrideColour = this.GetColour(profile.SetEntriesColourName);
+                else
+                    overrideColour = this.ColourPalette.ActivePalette[Convert.ToInt16(profile.SetEntriesColourGoogleId)];
+
                 if (profile.TargetCalendar.Id == Sync.Direction.GoogleToOutlook.Id) { //Colour forced to sync in other direction
                     if (gColour == null) //Creating item
                         return EventColour.Palette.NullPalette;
