@@ -397,11 +397,11 @@
     <Compile Include="Google\GMeet.cs" />
     <Compile Include="Google\GoogleCalendar.cs" />
     <Compile Include="Google\GoogleRecurrence.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Outlook.Factory\OutlookFactory.cs" />
     <Compile Include="Outlook.Factory\OutlookInterface.cs" />
     <Compile Include="Outlook.Factory\OutlookNew.cs" />
     <Compile Include="Outlook.Factory\OutlookOld.cs" />
-    <Compile Include="Helper.cs" />
     <Compile Include="Outlook\CustomProperty.cs" />
     <Compile Include="Outlook\ExplorerWatcher.cs" />
     <Compile Include="Outlook\GMeet.cs" />
@@ -525,6 +525,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="app.manifest" />
+    <None Include="packages.config" />
     <None Include="Resources\gmeet_logo.png" />
     <None Include="Resources\animated-tray-icon-strip-64x.bmp" />
     <None Include="Resources\ogcs128x128-animated.gif" />
@@ -540,7 +541,6 @@
     <None Include="tzdb.nzd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
     <None Include="Resources\delay.png" />
     <None Include="Resources\sync.gif" />
     <None Include="Resources\cog.png" />
