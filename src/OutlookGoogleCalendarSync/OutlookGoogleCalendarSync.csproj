@@ -22,6 +22,9 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <LangVersion>latest</LangVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>false</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -41,7 +44,6 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -154,43 +156,43 @@
       <HintPath>lib\Squirrel\DeltaCompressionDotNet.PatchApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Google.Api.CommonProtos, Version=2.16.0.0, Culture=neutral, PublicKeyToken=3ec5ea7f18953e47, processorArchitecture=MSIL">
+    <Reference Include="Google.Api.CommonProtos, Version=2.17.0.0, Culture=neutral, PublicKeyToken=3ec5ea7f18953e47, processorArchitecture=MSIL">
       <HintPath>lib\Google.Api.CommonProtos.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Api.Gax, Version=4.9.0.0, Culture=neutral, PublicKeyToken=3ec5ea7f18953e47, processorArchitecture=MSIL">
+    <Reference Include="Google.Api.Gax, Version=4.14.0.0, Culture=neutral, PublicKeyToken=3ec5ea7f18953e47, processorArchitecture=MSIL">
       <HintPath>lib\Google.Api.Gax.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Api.Gax.Grpc, Version=4.9.0.0, Culture=neutral, PublicKeyToken=3ec5ea7f18953e47, processorArchitecture=MSIL">
+    <Reference Include="Google.Api.Gax.Grpc, Version=4.14.0.0, Culture=neutral, PublicKeyToken=3ec5ea7f18953e47, processorArchitecture=MSIL">
       <HintPath>lib\Google.Api.Gax.Grpc.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+    <Reference Include="Google.Apis, Version=1.74.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>lib\Google.Apis.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.Auth, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+    <Reference Include="Google.Apis.Auth, Version=1.74.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>lib\Google.Apis.Auth.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.Calendar.v3, Version=1.68.0.3536, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+    <Reference Include="Google.Apis.Calendar.v3, Version=1.74.0.4073, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>lib\Google.Apis.Calendar.v3.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis.Core, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+    <Reference Include="Google.Apis.Core, Version=1.74.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>lib\Google.Apis.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Cloud.DevTools.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=185c282632e132a0, processorArchitecture=MSIL">
+    <Reference Include="Google.Cloud.DevTools.Common, Version=3.3.0.0, Culture=neutral, PublicKeyToken=185c282632e132a0, processorArchitecture=MSIL">
       <HintPath>lib\Google.Cloud.DevTools.Common.dll</HintPath>
     </Reference>
     <Reference Include="Google.Cloud.Logging.Log4Net, Version=4.4.0.0, Culture=neutral, PublicKeyToken=185c282632e132a0, processorArchitecture=MSIL">
       <HintPath>lib\Google.Cloud.Logging.Log4Net.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Cloud.Logging.Type, Version=4.2.0.0, Culture=neutral, PublicKeyToken=185c282632e132a0, processorArchitecture=MSIL">
+    <Reference Include="Google.Cloud.Logging.Type, Version=4.3.0.0, Culture=neutral, PublicKeyToken=185c282632e132a0, processorArchitecture=MSIL">
       <HintPath>lib\Google.Cloud.Logging.Type.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Cloud.Logging.V2, Version=4.4.0.0, Culture=neutral, PublicKeyToken=185c282632e132a0, processorArchitecture=MSIL">
+    <Reference Include="Google.Cloud.Logging.V2, Version=4.5.0.0, Culture=neutral, PublicKeyToken=185c282632e132a0, processorArchitecture=MSIL">
       <HintPath>lib\Google.Cloud.Logging.V2.dll</HintPath>
     </Reference>
-    <Reference Include="Google.LongRunning, Version=3.2.0.0, Culture=neutral, PublicKeyToken=185c282632e132a0, processorArchitecture=MSIL">
+    <Reference Include="Google.LongRunning, Version=3.5.0.0, Culture=neutral, PublicKeyToken=185c282632e132a0, processorArchitecture=MSIL">
       <HintPath>lib\Google.LongRunning.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Protobuf, Version=3.28.2.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+    <Reference Include="Google.Protobuf, Version=3.34.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>lib\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="Grpc.Auth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d754f35622e28bad, processorArchitecture=MSIL">
@@ -208,17 +210,17 @@
     <Reference Include="Grpc.Net.Common, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d754f35622e28bad, processorArchitecture=MSIL">
       <HintPath>lib\Grpc.Net.Common.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=3.0.1.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+    <Reference Include="log4net, Version=3.3.1.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>lib\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>lib\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>lib\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>lib\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
@@ -240,7 +242,7 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NodaTime, Version=3.1.12.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+    <Reference Include="NodaTime, Version=3.3.2.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
       <HintPath>lib\NodaTime.dll</HintPath>
     </Reference>
     <Reference Include="NuGet.Squirrel, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -267,9 +269,6 @@
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=6.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>lib\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Interactive.Async, Version=3.2.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>lib\System.Interactive.Async.dll</HintPath>
@@ -280,21 +279,21 @@
       <HintPath>lib\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.WinHttpHandler, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+    <Reference Include="System.Net.Http.WinHttpHandler, Version=8.0.0.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>lib\System.Net.Http.WinHttpHandler.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>lib\System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>lib\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>lib\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+    <Reference Include="System.ValueTuple, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>lib\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
@@ -526,62 +525,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="app.manifest" />
-    <None Include="protos\google\api\annotations.proto" />
-    <None Include="protos\google\api\auth.proto" />
-    <None Include="protos\google\api\backend.proto" />
-    <None Include="protos\google\api\billing.proto" />
-    <None Include="protos\google\api\client.proto" />
-    <None Include="protos\google\api\config_change.proto" />
-    <None Include="protos\google\api\consumer.proto" />
-    <None Include="protos\google\api\context.proto" />
-    <None Include="protos\google\api\control.proto" />
-    <None Include="protos\google\api\distribution.proto" />
-    <None Include="protos\google\api\documentation.proto" />
-    <None Include="protos\google\api\endpoint.proto" />
-    <None Include="protos\google\api\error_reason.proto" />
-    <None Include="protos\google\api\field_behavior.proto" />
-    <None Include="protos\google\api\field_info.proto" />
-    <None Include="protos\google\api\http.proto" />
-    <None Include="protos\google\api\httpbody.proto" />
-    <None Include="protos\google\api\label.proto" />
-    <None Include="protos\google\api\launch_stage.proto" />
-    <None Include="protos\google\api\log.proto" />
-    <None Include="protos\google\api\logging.proto" />
-    <None Include="protos\google\api\metric.proto" />
-    <None Include="protos\google\api\monitored_resource.proto" />
-    <None Include="protos\google\api\monitoring.proto" />
-    <None Include="protos\google\api\policy.proto" />
-    <None Include="protos\google\api\quota.proto" />
-    <None Include="protos\google\api\resource.proto" />
-    <None Include="protos\google\api\routing.proto" />
-    <None Include="protos\google\api\service.proto" />
-    <None Include="protos\google\api\source_info.proto" />
-    <None Include="protos\google\api\system_parameter.proto" />
-    <None Include="protos\google\api\usage.proto" />
-    <None Include="protos\google\api\visibility.proto" />
-    <None Include="protos\google\rpc\code.proto" />
-    <None Include="protos\google\rpc\context\attribute_context.proto" />
-    <None Include="protos\google\rpc\context\audit_context.proto" />
-    <None Include="protos\google\rpc\error_details.proto" />
-    <None Include="protos\google\rpc\http.proto" />
-    <None Include="protos\google\rpc\status.proto" />
-    <None Include="protos\google\type\calendar_period.proto" />
-    <None Include="protos\google\type\color.proto" />
-    <None Include="protos\google\type\date.proto" />
-    <None Include="protos\google\type\datetime.proto" />
-    <None Include="protos\google\type\dayofweek.proto" />
-    <None Include="protos\google\type\decimal.proto" />
-    <None Include="protos\google\type\expr.proto" />
-    <None Include="protos\google\type\fraction.proto" />
-    <None Include="protos\google\type\interval.proto" />
-    <None Include="protos\google\type\latlng.proto" />
-    <None Include="protos\google\type\localized_text.proto" />
-    <None Include="protos\google\type\money.proto" />
-    <None Include="protos\google\type\month.proto" />
-    <None Include="protos\google\type\phone_number.proto" />
-    <None Include="protos\google\type\postal_address.proto" />
-    <None Include="protos\google\type\quaternion.proto" />
-    <None Include="protos\google\type\timeofday.proto" />
     <None Include="Resources\gmeet_logo.png" />
     <None Include="Resources\animated-tray-icon-strip-64x.bmp" />
     <None Include="Resources\ogcs128x128-animated.gif" />
@@ -746,7 +689,7 @@
     <Error Condition="!Exists('lib\Microsoft.Extensions.Logging.Abstractions.targets')" Text="$([System.String]::Format('$(ErrorText)', 'lib\Microsoft.Extensions.Logging.Abstractions.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>powershell $(ProjectDir)zipHotfix.ps1 -BuildType $(ConfigurationName) -TargetName $(TargetName)</PostBuildEvent>
+    <PostBuildEvent>powershell $(ProjectDir)\scripts\zipHotfix.ps1 -BuildType $(ConfigurationName) -TargetName $(TargetName)</PostBuildEvent>
   </PropertyGroup>
   <Target Name="ShowTargetDir" AfterTargets="Build">
     <Message Text="MSBuildBinPath Value: $(MSBuildBinPath)" Importance="High" />
