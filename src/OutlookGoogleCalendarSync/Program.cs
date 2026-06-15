@@ -40,7 +40,7 @@ namespace OutlookGoogleCalendarSync {
         private static Boolean? isInstalled = null;
         public static Boolean IsInstalled {
             get {
-                isInstalled = isInstalled ?? Updater.IsSquirrelInstall();
+                isInstalled ??= Updater.IsSquirrelInstall();
                 if ((bool)isInstalled && !Application.StartupPath.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData))) {
                     log.Info("An installation of OGCS exists, but this running instance is portable.");
                     return false;
@@ -601,7 +601,7 @@ namespace OutlookGoogleCalendarSync {
         /// <returns>The converted integer version number.</returns>
         public static Int32 VersionToInt(String semanticVersion) {
             String paddedVersion = "";
-            foreach (String versionBit in semanticVersion.Split('.')) {
+            foreach (String versionBit in semanticVersion?.Split('.')) {
                 paddedVersion += versionBit.PadLeft(2, '0');
             }
             return Convert.ToInt32(paddedVersion);
